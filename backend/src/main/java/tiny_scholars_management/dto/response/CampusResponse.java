@@ -12,6 +12,7 @@ import java.util.List;
 public class CampusResponse {
     private Integer id;
     private String name;
+    private String imgUrl;
     private String address;
     private String campusEmail;
     private String campusPhoneNumber;

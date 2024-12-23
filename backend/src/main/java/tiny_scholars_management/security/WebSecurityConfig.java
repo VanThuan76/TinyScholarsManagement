@@ -50,6 +50,7 @@ public class WebSecurityConfig {
                     "/api/children/**",
                     "/api/bookings/**",
                     "/api/signs/**",
+                    "/photos/**",
                     "/api/image/**").permitAll()
             .antMatchers("/api/users/signin", "/api/users/signup", "/h2-console/**/**", "/public").permitAll()
             .anyRequest().authenticated();
@@ -67,6 +68,7 @@ public class WebSecurityConfig {
     configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
     configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
     configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Accept"));
+    configuration.setExposedHeaders(Arrays.asList("Content-Type", "Content-Disposition"));
     configuration.setAllowCredentials(true);
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
     source.registerCorsConfiguration("/**", configuration);

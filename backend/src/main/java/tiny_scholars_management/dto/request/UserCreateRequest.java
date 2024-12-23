@@ -15,8 +15,11 @@ import javax.validation.constraints.NotNull;
 @EqualsAndHashCode(callSuper = false)
 public class UserCreateRequest extends BaseDTO {
     @NotNull
+    private String firstName;
+    private String lastName;
     private String username;
     private String email;
     private String password;
+    private String relationship;
     private Role role;
 }

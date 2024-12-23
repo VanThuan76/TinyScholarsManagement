@@ -61,6 +61,7 @@ public class CampusServiceImpl implements CampusService {
         campus.setAddress(campusCreateRequest.getAddress());
         campus.setCampusEmail(campusCreateRequest.getCampusEmail());
         campus.setCampusPhoneNumber(campusCreateRequest.getCampusPhoneNumber());
+        campus.setImgUrl(campusCreateRequest.getImgUrl());
 
         return campusRepository.save(campus);
     }
@@ -73,6 +74,7 @@ public class CampusServiceImpl implements CampusService {
         existingCampus.setAddress(campusUpdateRequest.getAddress());
         existingCampus.setCampusEmail(campusUpdateRequest.getCampusEmail());
         existingCampus.setCampusPhoneNumber(campusUpdateRequest.getCampusPhoneNumber());
+        existingCampus.setImgUrl(campusUpdateRequest.getImgUrl());
 
         return campusRepository.save(existingCampus);
     }

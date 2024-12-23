@@ -1,5 +1,6 @@
 package tiny_scholars_management.service.impl;
 
+import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -44,9 +45,9 @@ public class UserServiceImpl implements UserService {
 
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 
-            String token = jwtTokenProvider.createToken(username, user.getRole());
+//            String token = jwtTokenProvider.createToken(username, user.getRole());
 
-            return UserMapper.convertInitUserResponse(user, token);
+            return UserMapper.convertToUserResponse(user);
         } catch (AuthenticationException e) {
             throw new CustomException("Invalid username/password supplied", HttpStatus.UNPROCESSABLE_ENTITY);
         }
@@ -68,10 +69,13 @@ public class UserServiceImpl implements UserService {
         User user = new User();
         LocalDateTime now = LocalDateTime.now();
 
+        user.setFirstName(userCreateRequest.getFirstName());
+        user.setLastName(userCreateRequest.getLastName());
         user.setUsername(userCreateRequest.getUsername());
         user.setEmail(userCreateRequest.getEmail());
         user.setPassword(userCreateRequest.getPassword());
         user.setRole(userCreateRequest.getRole());
+        user.setRelationship(userCreateRequest.getRelationship());
         user.setCreatedDate(now);
         user.setModifiedDate(now);
 
@@ -88,6 +92,12 @@ public class UserServiceImpl implements UserService {
         return usersPage.stream()
                 .map(user -> UserMapper.convertToUserResponse(user))
                 .collect(Collectors.toList());
+    }
+
+    public UserResponse getUserById(Integer id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+        return UserMapper.convertToUserResponse(user);
     }
 
     @Override

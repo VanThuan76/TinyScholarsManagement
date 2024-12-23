@@ -67,6 +67,20 @@ public class UserController {
     return BaseResponse.ok(users);
   }
 
+  @GetMapping("/id/{id}")
+  @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_CLIENT')")
+  @ApiOperation(value = "Get user by ID", response = UserResponse.class, authorizations = { @Authorization(value="apiKey") })
+  @ApiResponses(value = {//
+          @ApiResponse(code = 400, message = "Something went wrong"), //
+          @ApiResponse(code = 403, message = "Access denied"), //
+          @ApiResponse(code = 404, message = "User not found"), //
+          @ApiResponse(code = 500, message = "Internal server error")})
+  public UserResponse getUserById(
+          @ApiParam("User ID") @PathVariable Integer id) {
+    return modelMapper.map(userService.getUserById(id), UserResponse.class);
+  }
+
+
   @DeleteMapping(value = "/{username}")
   @PreAuthorize("hasRole('ROLE_ADMIN')")
   @ApiOperation(value = "${UserController.delete}", authorizations = { @Authorization(value="apiKey") })

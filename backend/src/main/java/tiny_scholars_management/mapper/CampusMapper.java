@@ -15,6 +15,7 @@ public class CampusMapper {
         response.setId(request.getId());
         response.setName(request.getName());
         response.setAddress(request.getAddress());
+        response.setImgUrl(request.getImgUrl());
         response.setCampusPhoneNumber(request.getCampusPhoneNumber());
         response.setCampusEmail(request.getCampusEmail());
         response.setRooms(rooms);

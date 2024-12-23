@@ -24,6 +24,9 @@ public class Campus {
     @Column(nullable = false)
     private String address;
 
+    @Column(name = "img_url")
+    private String imgUrl;
+
     @Column(name = "campus_email", nullable = false)
     private String campusEmail;
 

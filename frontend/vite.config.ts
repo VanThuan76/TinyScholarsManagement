@@ -1,54 +1,60 @@
-import react from '@vitejs/plugin-react';
-import path from 'path';
 import { defineConfig } from 'vite';
-import vitePluginImp from 'vite-plugin-imp';
-import svgrPlugin from 'vite-plugin-svgr';
+import react from '@vitejs/plugin-react';
+import tailwind from 'tailwindcss';
+import autoprefixer from 'autoprefixer';
+import { createHtmlPlugin } from 'vite-plugin-html';
+import tailwindConfig from './tailwind.config.mjs';
+import CONFIG from './config';
+import { VitePWA } from 'vite-plugin-pwa';
+import path from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  plugins: [
+    react(),
+    createHtmlPlugin({
+      inject: {
+        data: {
+          title: CONFIG.appName,
+          metaTitle: CONFIG.metaTags.title,
+          metaDescription: CONFIG.metaTags.description,
+          metaImageURL: CONFIG.metaTags.imageURL,
+        },
+      },
+    }),
+    ...(CONFIG.enablePWA
+      ? [
+          VitePWA({
+            registerType: 'autoUpdate',
+            includeAssets: ['icon.png'],
+            manifest: {
+              name: CONFIG.appName,
+              short_name: CONFIG.appName,
+              description: CONFIG.metaTags.description,
+              theme_color: CONFIG.theme.accentColor,
+              icons: [
+                {
+                  src: 'icon.png',
+                  sizes: '64x64 32x32 24x24 16x16 192x192 512x512',
+                  type: 'image/png',
+                },
+              ],
+            },
+          }),
+        ]
+      : []),
+  ],
+  css: {
+    postcss: {
+      plugins: [tailwind(tailwindConfig), autoprefixer],
+    },
+  },
+  define: {
+    CONFIG: CONFIG,
+  },
   resolve: {
     alias: {
-      '@': path.join(__dirname, 'src'),
+      '@': path.resolve(__dirname, './src'),
     },
   },
-  server: {
-    port: 8889,
-    proxy: {
-      '/api': {
-        target: `http://localhost:${process.env.PORT}/api`,
-        // changeOrigin: true,
-        rewrite: path => path.replace(/^\/api/, ''),
-      },
-    },
-  },
-  plugins: [
-    react({
-      jsxImportSource: '@emotion/react',
-      babel: {
-        plugins: ['@emotion/babel-plugin'],
-      },
-    }),
-    vitePluginImp({
-      libList: [
-        // {
-        //   libName: 'antd',
-        //   style: name => `antd/es/${name}/style/index.css`,
-        // },
-        {
-          libName: 'lodash',
-          libDirectory: '',
-          camel2DashComponentName: false,
-          style: () => {
-            return false;
-          },
-        },
-      ],
-    }),
-    svgrPlugin({
-      svgrOptions: {
-        icon: true,
-        // ...svgr options (https://react-svgr.com/docs/options/)
-      },
-    }),
-  ],
 });

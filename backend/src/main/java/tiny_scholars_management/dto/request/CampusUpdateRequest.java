@@ -13,6 +13,7 @@ import tiny_scholars_management.dto.BaseDTO;
 public class CampusUpdateRequest extends BaseDTO {
     private Integer id;
     private String name;
+    private String imgUrl;
     private String address;
     private String campusEmail;
     private String campusPhoneNumber;

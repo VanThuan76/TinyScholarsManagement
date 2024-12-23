@@ -17,6 +17,8 @@ public interface UserService {
 
     List<UserResponse> getAllUsers(int page, int perPage);
 
+    UserResponse getUserById(Integer id);
+
     void delete(String username);
 
     User search(String username);

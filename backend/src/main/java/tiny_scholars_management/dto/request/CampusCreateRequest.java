@@ -16,6 +16,7 @@ public class CampusCreateRequest extends BaseDTO {
     @NotNull
     private String name;
     private String address;
+    private String imgUrl;
     private String campusEmail;
     private String campusPhoneNumber;
 }

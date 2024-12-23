@@ -1,17 +1,15 @@
 /// <reference types="vite/client" />
-/// <reference types="vite-plugin-svgr/client" />
-/// <reference types="@emotion/react/types/css-prop" />
 
-import type { AppState } from './stores';
+interface ImportMetaEnv {
+  readonly VITE_APP_NAME: string;
+  readonly VITE_ENABLE_PWA: string;
+  readonly VITE_THEME_ACCENT_COLOR: string;
+  readonly VITE_THEME_SIDEBAR_LAYOUT: string;
+  readonly VITE_SHOW_BREADCRUMB: string;
 
-declare module 'react-redux' {
-  export interface DefaultRootState extends AppState {}
+  // more env variables...
 }
 
-declare interface ObjectConstructor {
-  keys<T>(o: T): (keyof T)[];
-}
-
-declare global {
-  export type YN = 'Y' | 'N';
+interface ImportMeta {
+  readonly env: ImportMetaEnv;
 }
